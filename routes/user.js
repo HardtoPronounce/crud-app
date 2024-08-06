@@ -11,6 +11,9 @@ router.use(expressSession({
     saveUninitialized: true
 }));
 
+router.get('/links', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // Register a new user
 router.post('/register', async (req, res) => {
