@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout</title>
+</head>
+<body>
+    <h2>Logout</h2>
+    <form id="logoutForm">
+        <button type="submit">Logout</button>
+    </form>
+
+    <script>
+        // Handle logout form submission
+        document.getElementById('logoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            fetch('/users/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Logout failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('Logout successful');
+                window.location.href = '/login'; // Redirect to login page after logout
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Logout failed');
+            });
+        });
+    </script>
+</body>
+</html>

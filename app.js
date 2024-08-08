@@ -40,6 +40,10 @@ app.get('/create', (req, res) => {
    res.sendFile(path.join(__dirname, 'public', 'create.html'));
 });
 
+app.get('/logout', (req, res) => {
+   res.sendFile(path.join(__dirname, 'public', 'logout.html'));
+});
+
 app.get('/update', (req, res) => {
    res.sendFile(path.join(__dirname, 'public', 'update.html'));
 });
