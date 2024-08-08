@@ -44,8 +44,9 @@ router.post('/login', async (req, res) => {
 
         const isMatch = await user.validatePassword(password);
         if (!isMatch) return res.status(401).json({ message: 'Invalid email or password' });
-
+        
         req.session.userId = user.id; // Set user ID in session
+        await req.session.save();
         res.status(200).json({ message: 'Login successful' });
     } catch (err) {
         res.status(500).json({ message: err.message });

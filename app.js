@@ -6,14 +6,27 @@ const sequelize = require('./config');
 const path = require('path');
 require('dotenv').config();
 
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+const sessionStore = new SequelizeStore({
+   db: sequelize,
+});
 
 app.use(session({
    secret: 'your-secret-key',
    resave: false,
-   saveUninitialized: true
+   saveUninitialized: false,
+   store: sessionStore,
+   cookie: {
+       secure: true, // Use secure cookies in production
+       maxAge: 1000 * 60 * 60 * 24 // 1 day
+   }
 }));
+
+sessionStore.sync();
 
 // Middleware
 app.use(bodyParser.json());
