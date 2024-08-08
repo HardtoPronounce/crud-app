@@ -20,7 +20,7 @@
             event.preventDefault();
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-
+    
             fetch('/users/login', {
                 method: 'POST',
                 headers: {
@@ -28,7 +28,12 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {  // Check if response status is not OK (not 2xx)
+                    throw new Error('Login failed');
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Success:', data);
                 alert('Login successful');
@@ -36,9 +41,10 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error during login');
+                alert('Invalid email or password');
             });
         });
     </script>
+    
 </body>
 </html>
